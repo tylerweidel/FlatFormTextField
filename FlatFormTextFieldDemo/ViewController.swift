@@ -71,7 +71,7 @@ class ViewController: UIViewController {
         default:
             break
         }
-        
+                
         UIView.animate(withDuration: 0.25) {
             self.ffTextField.layoutIfNeeded()
         }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class OSEFlatFormTextField: UIView {
+class OSEFlatFormTextField: UIControl {
     enum AccessoryState {
         case loading
         case refresh
@@ -19,6 +19,7 @@ class OSEFlatFormTextField: UIView {
     private var errorLabel = UILabel()
     private var _accessoryState: AccessoryState?
     private var lineView = UIView(frame: .zero)
+    private var heightConstraint: NSLayoutConstraint!
 
     weak var delegate: UITextFieldDelegate?
 
@@ -37,11 +38,14 @@ class OSEFlatFormTextField: UIView {
         setupLineView()
         setupErrorLabel()
         
-        bringSubviewToFront(textField)
+        heightConstraint = heightAnchor.constraint(equalToConstant: 40)
+        heightConstraint.isActive = true
     }
     
-    @objc func test() {
-        print("test")
+    private func updateHeightConstraint() {
+        DispatchQueue.main.async {
+            self.heightConstraint.constant = self.errorLabel.frame.maxY
+        }
     }
     
     private func setupTextField() {
@@ -79,10 +83,6 @@ class OSEFlatFormTextField: UIView {
         errorLabel.numberOfLines = 0
         errorFont = UIFont(name: "Maax", size: 12)!
         errorColor = UIColor(named: "red-500")
-        
-        let constraint = errorLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
-        constraint.priority = .defaultLow
-        constraint.isActive = true
     }
 
     private func updateAccessoryStateView() {
@@ -167,6 +167,7 @@ class OSEFlatFormTextField: UIView {
         }
         set {
             errorLabel.text = newValue
+            updateHeightConstraint()
         }
     }
 
