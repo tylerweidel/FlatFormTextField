@@ -13,6 +13,35 @@
 		EDAF07A82488017B00571118 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EDAF07A62488017B00571118 /* Main.storyboard */; };
 		EDAF07AA2488017D00571118 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EDAF07A92488017D00571118 /* Assets.xcassets */; };
 		EDAF07AD2488017D00571118 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EDAF07AB2488017D00571118 /* LaunchScreen.storyboard */; };
+		EDAF07B52488020A00571118 /* OSEFlatFormTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAF07B42488020A00571118 /* OSEFlatFormTextField.swift */; };
+		EDAF07E72488056B00571118 /* DIN_Next_Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EDAF07CB2488056A00571118 /* DIN_Next_Light.ttf */; };
+		EDAF07E82488056B00571118 /* Shrikhand-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EDAF07CC2488056A00571118 /* Shrikhand-Regular.ttf */; };
+		EDAF07E92488056B00571118 /* SignPainter.ttc in Resources */ = {isa = PBXBuildFile; fileRef = EDAF07CD2488056A00571118 /* SignPainter.ttc */; };
+		EDAF07EA2488056B00571118 /* DIN_Next_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EDAF07CE2488056A00571118 /* DIN_Next_Regular.ttf */; };
+		EDAF07EB2488056B00571118 /* Maax-Mediumitalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EDAF07CF2488056A00571118 /* Maax-Mediumitalic.ttf */; };
+		EDAF07EC2488056B00571118 /* Agilita W01 Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EDAF07D02488056A00571118 /* Agilita W01 Heavy.ttf */; };
+		EDAF07ED2488056B00571118 /* signpainterhousebrush.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EDAF07D12488056A00571118 /* signpainterhousebrush.ttf */; };
+		EDAF07EE2488056B00571118 /* Agilita W01 Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EDAF07D22488056A00571118 /* Agilita W01 Black.ttf */; };
+		EDAF07EF2488056B00571118 /* Agilita W01 Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EDAF07D32488056A00571118 /* Agilita W01 Medium.ttf */; };
+		EDAF07F02488056B00571118 /* Agilita W01 Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EDAF07D42488056A00571118 /* Agilita W01 Bold.ttf */; };
+		EDAF07F12488056B00571118 /* Agilita W01 Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EDAF07D52488056A00571118 /* Agilita W01 Regular.ttf */; };
+		EDAF07F22488056B00571118 /* Maax-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EDAF07D62488056A00571118 /* Maax-Medium.ttf */; };
+		EDAF07F32488056B00571118 /* DIN_Next_Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EDAF07D72488056A00571118 /* DIN_Next_Italic.ttf */; };
+		EDAF07F42488056B00571118 /* Agilita W01 Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EDAF07D82488056A00571118 /* Agilita W01 Italic.ttf */; };
+		EDAF07F52488056B00571118 /* maax-bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = EDAF07D92488056A00571118 /* maax-bold.otf */; };
+		EDAF07F62488056B00571118 /* Maax-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EDAF07DA2488056A00571118 /* Maax-Italic.ttf */; };
+		EDAF07F72488056B00571118 /* Agilita W01 Black Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EDAF07DB2488056A00571118 /* Agilita W01 Black Italic.ttf */; };
+		EDAF07F82488056B00571118 /* DIN_Next_Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EDAF07DC2488056A00571118 /* DIN_Next_Bold.ttf */; };
+		EDAF07F92488056B00571118 /* Maax_black.otf in Resources */ = {isa = PBXBuildFile; fileRef = EDAF07DD2488056B00571118 /* Maax_black.otf */; };
+		EDAF07FA2488056B00571118 /* DIN_Next_Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EDAF07DE2488056B00571118 /* DIN_Next_Medium.ttf */; };
+		EDAF07FB2488056B00571118 /* maax-regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = EDAF07DF2488056B00571118 /* maax-regular.otf */; };
+		EDAF07FC2488056B00571118 /* Agilita_Bold_Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EDAF07E02488056B00571118 /* Agilita_Bold_Italic.ttf */; };
+		EDAF07FD2488056B00571118 /* DIN_Next_Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EDAF07E12488056B00571118 /* DIN_Next_Heavy.ttf */; };
+		EDAF07FE2488056B00571118 /* Agilita W01 Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EDAF07E22488056B00571118 /* Agilita W01 Light.ttf */; };
+		EDAF07FF2488056B00571118 /* DIN_Next_Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EDAF07E32488056B00571118 /* DIN_Next_Black.ttf */; };
+		EDAF08002488056B00571118 /* Agilita W01 Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EDAF07E42488056B00571118 /* Agilita W01 Thin.ttf */; };
+		EDAF08012488056B00571118 /* Agilita_Medium_Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EDAF07E52488056B00571118 /* Agilita_Medium_Italic.ttf */; };
+		EDAF08022488056B00571118 /* Agilita_Heavy_Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EDAF07E62488056B00571118 /* Agilita_Heavy_Italic.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +53,35 @@
 		EDAF07A92488017D00571118 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EDAF07AC2488017D00571118 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EDAF07AE2488017D00571118 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EDAF07B42488020A00571118 /* OSEFlatFormTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSEFlatFormTextField.swift; sourceTree = "<group>"; };
+		EDAF07CB2488056A00571118 /* DIN_Next_Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DIN_Next_Light.ttf; sourceTree = "<group>"; };
+		EDAF07CC2488056A00571118 /* Shrikhand-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Shrikhand-Regular.ttf"; sourceTree = "<group>"; };
+		EDAF07CD2488056A00571118 /* SignPainter.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = SignPainter.ttc; sourceTree = "<group>"; };
+		EDAF07CE2488056A00571118 /* DIN_Next_Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DIN_Next_Regular.ttf; sourceTree = "<group>"; };
+		EDAF07CF2488056A00571118 /* Maax-Mediumitalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Maax-Mediumitalic.ttf"; sourceTree = "<group>"; };
+		EDAF07D02488056A00571118 /* Agilita W01 Heavy.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Agilita W01 Heavy.ttf"; sourceTree = "<group>"; };
+		EDAF07D12488056A00571118 /* signpainterhousebrush.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = signpainterhousebrush.ttf; sourceTree = "<group>"; };
+		EDAF07D22488056A00571118 /* Agilita W01 Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Agilita W01 Black.ttf"; sourceTree = "<group>"; };
+		EDAF07D32488056A00571118 /* Agilita W01 Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Agilita W01 Medium.ttf"; sourceTree = "<group>"; };
+		EDAF07D42488056A00571118 /* Agilita W01 Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Agilita W01 Bold.ttf"; sourceTree = "<group>"; };
+		EDAF07D52488056A00571118 /* Agilita W01 Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Agilita W01 Regular.ttf"; sourceTree = "<group>"; };
+		EDAF07D62488056A00571118 /* Maax-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Maax-Medium.ttf"; sourceTree = "<group>"; };
+		EDAF07D72488056A00571118 /* DIN_Next_Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DIN_Next_Italic.ttf; sourceTree = "<group>"; };
+		EDAF07D82488056A00571118 /* Agilita W01 Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Agilita W01 Italic.ttf"; sourceTree = "<group>"; };
+		EDAF07D92488056A00571118 /* maax-bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "maax-bold.otf"; sourceTree = "<group>"; };
+		EDAF07DA2488056A00571118 /* Maax-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Maax-Italic.ttf"; sourceTree = "<group>"; };
+		EDAF07DB2488056A00571118 /* Agilita W01 Black Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Agilita W01 Black Italic.ttf"; sourceTree = "<group>"; };
+		EDAF07DC2488056A00571118 /* DIN_Next_Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DIN_Next_Bold.ttf; sourceTree = "<group>"; };
+		EDAF07DD2488056B00571118 /* Maax_black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Maax_black.otf; sourceTree = "<group>"; };
+		EDAF07DE2488056B00571118 /* DIN_Next_Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DIN_Next_Medium.ttf; sourceTree = "<group>"; };
+		EDAF07DF2488056B00571118 /* maax-regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "maax-regular.otf"; sourceTree = "<group>"; };
+		EDAF07E02488056B00571118 /* Agilita_Bold_Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Agilita_Bold_Italic.ttf; sourceTree = "<group>"; };
+		EDAF07E12488056B00571118 /* DIN_Next_Heavy.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DIN_Next_Heavy.ttf; sourceTree = "<group>"; };
+		EDAF07E22488056B00571118 /* Agilita W01 Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Agilita W01 Light.ttf"; sourceTree = "<group>"; };
+		EDAF07E32488056B00571118 /* DIN_Next_Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DIN_Next_Black.ttf; sourceTree = "<group>"; };
+		EDAF07E42488056B00571118 /* Agilita W01 Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Agilita W01 Thin.ttf"; sourceTree = "<group>"; };
+		EDAF07E52488056B00571118 /* Agilita_Medium_Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Agilita_Medium_Italic.ttf; sourceTree = "<group>"; };
+		EDAF07E62488056B00571118 /* Agilita_Heavy_Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Agilita_Heavy_Italic.ttf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +114,7 @@
 		EDAF079F2488017B00571118 /* FlatFormTextFieldDemo */ = {
 			isa = PBXGroup;
 			children = (
+				EDAF07CA2488054800571118 /* Fonts */,
 				EDAF07A02488017B00571118 /* AppDelegate.swift */,
 				EDAF07A22488017B00571118 /* SceneDelegate.swift */,
 				EDAF07A42488017B00571118 /* ViewController.swift */,
@@ -63,8 +122,44 @@
 				EDAF07A92488017D00571118 /* Assets.xcassets */,
 				EDAF07AB2488017D00571118 /* LaunchScreen.storyboard */,
 				EDAF07AE2488017D00571118 /* Info.plist */,
+				EDAF07B42488020A00571118 /* OSEFlatFormTextField.swift */,
 			);
 			path = FlatFormTextFieldDemo;
+			sourceTree = "<group>";
+		};
+		EDAF07CA2488054800571118 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				EDAF07CC2488056A00571118 /* Shrikhand-Regular.ttf */,
+				EDAF07DD2488056B00571118 /* Maax_black.otf */,
+				EDAF07D92488056A00571118 /* maax-bold.otf */,
+				EDAF07DA2488056A00571118 /* Maax-Italic.ttf */,
+				EDAF07D62488056A00571118 /* Maax-Medium.ttf */,
+				EDAF07CF2488056A00571118 /* Maax-Mediumitalic.ttf */,
+				EDAF07DF2488056B00571118 /* maax-regular.otf */,
+				EDAF07DB2488056A00571118 /* Agilita W01 Black Italic.ttf */,
+				EDAF07D22488056A00571118 /* Agilita W01 Black.ttf */,
+				EDAF07D42488056A00571118 /* Agilita W01 Bold.ttf */,
+				EDAF07D02488056A00571118 /* Agilita W01 Heavy.ttf */,
+				EDAF07D82488056A00571118 /* Agilita W01 Italic.ttf */,
+				EDAF07E22488056B00571118 /* Agilita W01 Light.ttf */,
+				EDAF07D32488056A00571118 /* Agilita W01 Medium.ttf */,
+				EDAF07D52488056A00571118 /* Agilita W01 Regular.ttf */,
+				EDAF07E42488056B00571118 /* Agilita W01 Thin.ttf */,
+				EDAF07E02488056B00571118 /* Agilita_Bold_Italic.ttf */,
+				EDAF07E62488056B00571118 /* Agilita_Heavy_Italic.ttf */,
+				EDAF07E52488056B00571118 /* Agilita_Medium_Italic.ttf */,
+				EDAF07E32488056B00571118 /* DIN_Next_Black.ttf */,
+				EDAF07DC2488056A00571118 /* DIN_Next_Bold.ttf */,
+				EDAF07E12488056B00571118 /* DIN_Next_Heavy.ttf */,
+				EDAF07D72488056A00571118 /* DIN_Next_Italic.ttf */,
+				EDAF07CB2488056A00571118 /* DIN_Next_Light.ttf */,
+				EDAF07DE2488056B00571118 /* DIN_Next_Medium.ttf */,
+				EDAF07CE2488056A00571118 /* DIN_Next_Regular.ttf */,
+				EDAF07CD2488056A00571118 /* SignPainter.ttc */,
+				EDAF07D12488056A00571118 /* signpainterhousebrush.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -125,9 +220,37 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EDAF07EC2488056B00571118 /* Agilita W01 Heavy.ttf in Resources */,
+				EDAF07F82488056B00571118 /* DIN_Next_Bold.ttf in Resources */,
+				EDAF07F22488056B00571118 /* Maax-Medium.ttf in Resources */,
+				EDAF07ED2488056B00571118 /* signpainterhousebrush.ttf in Resources */,
+				EDAF08022488056B00571118 /* Agilita_Heavy_Italic.ttf in Resources */,
+				EDAF07FC2488056B00571118 /* Agilita_Bold_Italic.ttf in Resources */,
+				EDAF07E92488056B00571118 /* SignPainter.ttc in Resources */,
+				EDAF07FB2488056B00571118 /* maax-regular.otf in Resources */,
+				EDAF07F02488056B00571118 /* Agilita W01 Bold.ttf in Resources */,
+				EDAF07EE2488056B00571118 /* Agilita W01 Black.ttf in Resources */,
+				EDAF07E82488056B00571118 /* Shrikhand-Regular.ttf in Resources */,
+				EDAF07F12488056B00571118 /* Agilita W01 Regular.ttf in Resources */,
 				EDAF07AD2488017D00571118 /* LaunchScreen.storyboard in Resources */,
+				EDAF07F52488056B00571118 /* maax-bold.otf in Resources */,
+				EDAF07F72488056B00571118 /* Agilita W01 Black Italic.ttf in Resources */,
 				EDAF07AA2488017D00571118 /* Assets.xcassets in Resources */,
+				EDAF07FD2488056B00571118 /* DIN_Next_Heavy.ttf in Resources */,
+				EDAF07EB2488056B00571118 /* Maax-Mediumitalic.ttf in Resources */,
+				EDAF07EA2488056B00571118 /* DIN_Next_Regular.ttf in Resources */,
+				EDAF07F42488056B00571118 /* Agilita W01 Italic.ttf in Resources */,
+				EDAF08012488056B00571118 /* Agilita_Medium_Italic.ttf in Resources */,
+				EDAF07F62488056B00571118 /* Maax-Italic.ttf in Resources */,
+				EDAF07E72488056B00571118 /* DIN_Next_Light.ttf in Resources */,
+				EDAF07FE2488056B00571118 /* Agilita W01 Light.ttf in Resources */,
+				EDAF07F92488056B00571118 /* Maax_black.otf in Resources */,
+				EDAF07F32488056B00571118 /* DIN_Next_Italic.ttf in Resources */,
+				EDAF08002488056B00571118 /* Agilita W01 Thin.ttf in Resources */,
+				EDAF07FA2488056B00571118 /* DIN_Next_Medium.ttf in Resources */,
+				EDAF07EF2488056B00571118 /* Agilita W01 Medium.ttf in Resources */,
 				EDAF07A82488017B00571118 /* Main.storyboard in Resources */,
+				EDAF07FF2488056B00571118 /* DIN_Next_Black.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,6 +261,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EDAF07B52488020A00571118 /* OSEFlatFormTextField.swift in Sources */,
 				EDAF07A52488017B00571118 /* ViewController.swift in Sources */,
 				EDAF07A12488017B00571118 /* AppDelegate.swift in Sources */,
 				EDAF07A32488017B00571118 /* SceneDelegate.swift in Sources */,
