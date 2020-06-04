@@ -1,8 +1,9 @@
 //
 //  OSEFlatFormTextField.swift
-//  OneSecondEveryday
+//  FlatFormTextFieldDemo
 //
-//  Created by Tyler Weidel on 6/1/20.
+//  Created by Tyler Weidel on 6/4/20.
+//  Copyright © 2020 1SE. All rights reserved.
 //
 
 import UIKit
@@ -15,12 +16,13 @@ class OSEFlatFormTextField: UIControl {
         case clear
     }
 
+    private var stackView = UIStackView()
     private var textField = UITextField()
-    private var errorLabel = UILabel()
     private var _accessoryState: AccessoryState?
     private var lineView = UIView(frame: .zero)
-    private var heightConstraint: NSLayoutConstraint!
-
+    private var errorLabelWrapperView = UIView(frame: .zero)
+    private var errorLabel = UILabel()
+    
     weak var delegate: UITextFieldDelegate?
 
     override init(frame: CGRect) {
@@ -34,55 +36,60 @@ class OSEFlatFormTextField: UIControl {
     }
 
     private func commonInit() {
+        setupStackView()
         setupTextField()
         setupLineView()
         setupErrorLabel()
+    }
+    
+    private func setupStackView() {
+        addSubview(stackView)
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        stackView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        stackView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+        stackView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         
-        heightConstraint = heightAnchor.constraint(equalToConstant: 40)
-        heightConstraint.isActive = true
+        stackView.alignment = .fill
+        stackView.distribution = .equalSpacing
+        stackView.spacing = 0
+        stackView.axis = .vertical
     }
-    
-    private func updateHeightConstraint() {
-        DispatchQueue.main.async {
-            self.heightConstraint.constant = self.errorLabel.frame.maxY
-        }
-    }
-    
+
     private func setupTextField() {
-        addSubview(textField)
+        stackView.addArrangedSubview(textField)
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        textField.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        textField.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        textField.heightAnchor.constraint(equalToConstant: 34).isActive = true
+        textField.heightAnchor.constraint(equalToConstant: 30).isActive = true
         textField.rightViewMode = .always
         textField.delegate = self
         font = UIFont(name: "Maax", size: 16)!
     }
 
     private func setupLineView() {
-        addSubview(lineView)
-        lineView.isUserInteractionEnabled = false
+        stackView.addArrangedSubview(lineView)
         lineView.translatesAutoresizingMaskIntoConstraints = false
         lineView.heightAnchor.constraint(equalToConstant: 1).isActive = true
         lineView.leftAnchor.constraint(equalTo: textField.leftAnchor).isActive = true
         lineView.rightAnchor.constraint(equalTo: textField.rightAnchor).isActive = true
-        lineView.topAnchor.constraint(equalTo: textField.bottomAnchor, constant: 5).isActive = true
 
         lineView.backgroundColor = UIColor(named: "neutral-400")
     }
 
     private func setupErrorLabel() {
-        addSubview(errorLabel)
-        errorLabel.isUserInteractionEnabled = false
+        stackView.addArrangedSubview(errorLabelWrapperView)
+        errorLabelWrapperView.addSubview(errorLabel)
+        
         errorLabel.translatesAutoresizingMaskIntoConstraints = false
-        errorLabel.leftAnchor.constraint(equalTo: textField.leftAnchor).isActive = true
-        errorLabel.rightAnchor.constraint(equalTo: textField.rightAnchor).isActive = true
-        errorLabel.topAnchor.constraint(equalTo: lineView.bottomAnchor, constant: 5).isActive = true
+        errorLabel.leadingAnchor.constraint(equalTo: errorLabelWrapperView.leadingAnchor).isActive = true
+        errorLabel.trailingAnchor.constraint(equalTo: errorLabelWrapperView.trailingAnchor).isActive = true
+        errorLabel.topAnchor.constraint(equalTo: errorLabelWrapperView.topAnchor, constant: 10).isActive = true
+        errorLabel.bottomAnchor.constraint(equalTo: errorLabelWrapperView.bottomAnchor).isActive = true
 
         errorLabel.numberOfLines = 0
         errorFont = UIFont(name: "Maax", size: 12)!
         errorColor = UIColor(named: "red-500")
+        
+        errorLabelWrapperView.isHidden = true
     }
 
     private func updateAccessoryStateView() {
@@ -160,15 +167,33 @@ class OSEFlatFormTextField: UIControl {
             completion: nil
         )
     }
+    
+    func setError(errorText: String?, animated: Bool, duration: TimeInterval = 0.25) {
+        if let error = errorText {
+            self.errorLabel.text = error
+            if animated {
+                UIView.animate(withDuration: duration) {
+                    self.errorLabelWrapperView.isHidden = false
+                }
+            } else {
+                self.errorLabelWrapperView.isHidden = false
+            }
+        } else {
+            if animated {
+                UIView.animate(withDuration: duration, animations: {
+                    self.errorLabelWrapperView.isHidden = true
+                }) { (_) in
+                    self.errorLabel.text = nil
+                }
+            } else {
+                self.errorLabelWrapperView.isHidden = true
+                self.errorLabel.text = nil
+            }
+        }
+    }
 
     var error: String? {
-        get {
-            return errorLabel.text
-        }
-        set {
-            errorLabel.text = newValue
-            updateHeightConstraint()
-        }
+        return errorLabel.text
     }
 
     var accessoryState: AccessoryState? {

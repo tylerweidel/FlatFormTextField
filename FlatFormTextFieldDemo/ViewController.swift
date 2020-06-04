@@ -24,7 +24,6 @@ class ViewController: UIViewController {
         ffTextField.topAnchor.constraint(equalTo: view.topAnchor, constant: 250).isActive = true
  
         ffTextField.placeholder = "Group Name"
-        ffTextField.backgroundColor = .clear
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -54,26 +53,25 @@ class ViewController: UIViewController {
     @IBAction func cycleErrorLabel(_ sender: Any) {
         switch errorLabelCount {
         case 1:
-            ffTextField.error = "This is an error message because someone made a mistake. But it totally wasn't me, it was the other person who was at fault."
+            let string = "This is an error message because someone made a mistake. But it totally wasn't me, it was the other person who was at fault."
+            ffTextField.setError(errorText: string, animated: true)
             errorLabelCount += 1
         case 2:
-            ffTextField.error = nil
+            ffTextField.setError(errorText: nil, animated: true)
             errorLabelCount += 1
         case 3:
-            ffTextField.error = "This is an error message because someone made a mistake. But it totally wasn't me."
+            let string = "This is an error message because someone made a mistake. But it totally wasn't me."
+            ffTextField.setError(errorText: string, animated: true)
             errorLabelCount += 1
         case 4:
-            ffTextField.error = nil
+            ffTextField.setError(errorText: nil, animated: true)
             errorLabelCount += 1
         case 5:
-            ffTextField.error = "The error message would go here."
+            let string = "The error message would go here."
+            ffTextField.setError(errorText: string, animated: true)
             errorLabelCount = 1
         default:
             break
-        }
-                
-        UIView.animate(withDuration: 0.25) {
-            self.ffTextField.layoutIfNeeded()
         }
     }
 
