@@ -22,8 +22,9 @@ class ViewController: UIViewController {
         ffTextField.widthAnchor.constraint(equalToConstant: 250).isActive = true
         ffTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         ffTextField.topAnchor.constraint(equalTo: view.topAnchor, constant: 250).isActive = true
- 
+
         ffTextField.placeholder = "Group Name"
+        ffTextField.delegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -51,29 +52,41 @@ class ViewController: UIViewController {
     }
     
     @IBAction func cycleErrorLabel(_ sender: Any) {
-        switch errorLabelCount {
+        UIView.animate(withDuration: 0.25) {
+            switch self.errorLabelCount {
         case 1:
+            
             let string = "This is an error message because someone made a mistake. But it totally wasn't me, it was the other person who was at fault."
-            ffTextField.setError(errorText: string, animated: true)
-            errorLabelCount += 1
+            
+            self.ffTextField.error = string
+            self.errorLabelCount += 1
         case 2:
-            ffTextField.setError(errorText: nil, animated: true)
-            errorLabelCount += 1
+            self.ffTextField.error = nil
+            self.errorLabelCount += 1
         case 3:
             let string = "This is an error message because someone made a mistake. But it totally wasn't me."
-            ffTextField.setError(errorText: string, animated: true)
-            errorLabelCount += 1
+            self.ffTextField.error = string
+            self.errorLabelCount += 1
         case 4:
-            ffTextField.setError(errorText: nil, animated: true)
-            errorLabelCount += 1
+            self.ffTextField.error = nil
+            self.errorLabelCount += 1
         case 5:
             let string = "The error message would go here."
-            ffTextField.setError(errorText: string, animated: true)
-            errorLabelCount = 1
+            self.ffTextField.error = string
+            self.errorLabelCount = 1
         default:
             break
         }
+        
+        
+    }
     }
 
+}
+
+extension ViewController: UITextFieldDelegate, OSEFlatFormTextFieldRightButtonDelegate {
+    func didTapTextFieldRightButton(ofKind kind: OSEFlatFormTextField.AccessoryState) {
+        print("did tap \(kind)")
+    }
 }
 

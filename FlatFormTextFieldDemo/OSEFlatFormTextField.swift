@@ -1,29 +1,34 @@
 //
 //  OSEFlatFormTextField.swift
-//  FlatFormTextFieldDemo
+//  OneSecondEveryday
 //
-//  Created by Tyler Weidel on 6/4/20.
-//  Copyright © 2020 1SE. All rights reserved.
+//  Created by Tyler Weidel on 6/1/20.
 //
 
 import UIKit
 
+protocol OSEFlatFormTextFieldRightButtonDelegate {
+    func didTapTextFieldRightButton(ofKind kind: OSEFlatFormTextField.AccessoryState)
+}
+
 class OSEFlatFormTextField: UIControl {
+    
+    enum Constants {
+        static let rightViewSize: CGFloat = 16
+    }
     enum AccessoryState {
         case loading
         case refresh
         case checkmark
-        case clear
     }
 
     private var stackView = UIStackView()
     private var textField = UITextField()
-    private var _accessoryState: AccessoryState?
     private var lineView = UIView(frame: .zero)
     private var errorLabelWrapperView = UIView(frame: .zero)
     private var errorLabel = UILabel()
-    
-    weak var delegate: UITextFieldDelegate?
+
+    weak var delegate: (UITextFieldDelegate & OSEFlatFormTextFieldRightButtonDelegate)?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -41,7 +46,7 @@ class OSEFlatFormTextField: UIControl {
         setupLineView()
         setupErrorLabel()
     }
-    
+
     private func setupStackView() {
         addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -49,7 +54,7 @@ class OSEFlatFormTextField: UIControl {
         stackView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         stackView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         stackView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        
+
         stackView.alignment = .fill
         stackView.distribution = .equalSpacing
         stackView.spacing = 0
@@ -78,7 +83,7 @@ class OSEFlatFormTextField: UIControl {
     private func setupErrorLabel() {
         stackView.addArrangedSubview(errorLabelWrapperView)
         errorLabelWrapperView.addSubview(errorLabel)
-        
+
         errorLabel.translatesAutoresizingMaskIntoConstraints = false
         errorLabel.leadingAnchor.constraint(equalTo: errorLabelWrapperView.leadingAnchor).isActive = true
         errorLabel.trailingAnchor.constraint(equalTo: errorLabelWrapperView.trailingAnchor).isActive = true
@@ -93,47 +98,23 @@ class OSEFlatFormTextField: UIControl {
     }
 
     private func updateAccessoryStateView() {
-        var image: UIImage?
-        switch _accessoryState {
+        switch accessoryState {
         case .loading:
-            // This will be our custom loading animation/icon
-            // temporary is a activity indicator for now
-            let activityIndicator = UIActivityIndicatorView(frame: .zero)
-            activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-            activityIndicator.heightAnchor.constraint(equalToConstant: 25).isActive = true
-            activityIndicator.widthAnchor.constraint(equalToConstant: 25).isActive = true
-            activityIndicator.startAnimating()
-            // For some reason adding the subview first sets the view correctly on the right of the text field
-            // Or else it puts it on the left side
-            addSubview(activityIndicator)
-
-            UIView.transition(
-                with: textField,
-                duration: 0.15,
-                options: .transitionCrossDissolve,
-                animations: { self.textField.rightView = activityIndicator },
-                completion: nil
-            )
-
-            return
+            setRightView(withImage: UIImage(named: "Loading"))
         case .refresh:
-            image = UIImage(named: "refresh")
+            setRightView(withImage: UIImage(named: "refresh"))
         case .checkmark:
-            image = UIImage(named: "checkmark")
-        case .clear:
-            image = UIImage()
+            setRightView(withImage: UIImage(named: "checkmark"))
         case .none:
-            break
+            setRightView(withImage: nil)
         }
-
-        setRightView(withImage: image)
     }
 
     private func setRightView(withImage image: UIImage?) {
         guard let accessoryImage = image else {
             UIView.transition(
                 with: textField,
-                duration: 0.15,
+                duration: 0.1,
                 options: .transitionCrossDissolve,
                 animations: { self.textField.rightView = nil },
                 completion: nil
@@ -142,66 +123,73 @@ class OSEFlatFormTextField: UIControl {
         }
 
         let imageView = UIImageView(image: accessoryImage)
-        let rightView = UIView(frame: .zero)
-        rightView.addSubview(imageView)
-
-        rightView.translatesAutoresizingMaskIntoConstraints = false
-        rightView.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        rightView.widthAnchor.constraint(equalToConstant: 20).isActive = true
-
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.topAnchor.constraint(equalTo: rightView.topAnchor).isActive = true
-        imageView.leadingAnchor.constraint(equalTo: rightView.leadingAnchor).isActive = true
-        imageView.trailingAnchor.constraint(equalTo: rightView.trailingAnchor).isActive = true
-        imageView.bottomAnchor.constraint(equalTo: rightView.bottomAnchor).isActive = true
-        imageView.contentMode = .scaleAspectFit
-
         // For some reason adding the subview first sets the view correctly on the right of the text field
         // Or else it puts it on the left side
-        addSubview(rightView)
+        addSubview(imageView)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.heightAnchor.constraint(equalToConstant: 16).isActive = true
+        imageView.widthAnchor.constraint(equalToConstant: 16).isActive = true
+        imageView.contentMode = .scaleAspectFit
+        imageView.isUserInteractionEnabled = true
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(rightViewTapped))
+        imageView.addGestureRecognizer(tapGesture)
+        
+        if accessoryState == .loading {
+            imageView.startRotating(duration: 1)
+        }
+        
         UIView.transition(
             with: textField,
-            duration: 0.15,
+            duration: 0.1,
             options: .transitionCrossDissolve,
-            animations: { self.textField.rightView = rightView },
+            animations: { self.textField.rightView = imageView },
             completion: nil
         )
     }
     
-    func setError(errorText: String?, animated: Bool, duration: TimeInterval = 0.25) {
-        if let error = errorText {
-            self.errorLabel.text = error
-            if animated {
-                UIView.animate(withDuration: duration) {
-                    self.errorLabelWrapperView.isHidden = false
-                }
-            } else {
-                self.errorLabelWrapperView.isHidden = false
-            }
-        } else {
-            if animated {
-                UIView.animate(withDuration: duration, animations: {
-                    self.errorLabelWrapperView.isHidden = true
-                }) { (_) in
-                    self.errorLabel.text = nil
-                }
-            } else {
-                self.errorLabelWrapperView.isHidden = true
-                self.errorLabel.text = nil
-            }
-        }
+    @objc private func rightViewTapped() {
+        guard let accessoryState = self.accessoryState else { return }
+        delegate?.didTapTextFieldRightButton(ofKind: accessoryState)
     }
 
+    /**
+     Sets or gets the error string which is displayed below the textField when it is not nil.
+
+     To animate this, simply wrap the setter call in an animation block:
+
+     ````
+     UIView.animate(withDuration: 0.5) {
+     flatFormTextField.error = "Error message."
+     }
+     ````
+     */
     var error: String? {
-        return errorLabel.text
-    }
-
-    var accessoryState: AccessoryState? {
         get {
-            return _accessoryState
+            return errorLabel.text
         }
         set {
-            _accessoryState = newValue
+            if let errorText = newValue {
+                errorLabel.text = errorText
+                // This can be animated externally by wrapping the setter call `error`
+                UIView.animate(withDuration: 0) {
+                    self.errorLabelWrapperView.isHidden = false
+                }
+            }
+            else {
+                // This can be animated externally by changing the duration when setting `error`
+                UIView.animate(withDuration: 0, animations: {
+                    self.errorLabelWrapperView.isHidden = true
+                }) { _ in
+                    self.errorLabel.text = nil
+                }
+            }
+        }
+    }
+
+    /// The accessory state determines which image to show in the rightView of the textField
+    var accessoryState: AccessoryState? {
+        didSet {
             updateAccessoryStateView()
         }
     }
@@ -265,12 +253,6 @@ class OSEFlatFormTextField: UIControl {
         }
     }
 
-    override var backgroundColor: UIColor? {
-        didSet {
-            textField.backgroundColor = backgroundColor
-        }
-    }
-
     var separatorColor: UIColor? {
         get {
             return lineView.backgroundColor
@@ -314,3 +296,25 @@ extension OSEFlatFormTextField: UITextFieldDelegate {
         return delegate?.textFieldShouldReturn?(textField) ?? true
     }
 }
+
+private let rotateKey = "OSERotate"
+
+extension UIView {
+    func startRotating(duration: TimeInterval = 3) {
+        guard layer.animation(forKey: rotateKey) == nil else {
+            return
+        }
+        let rotateAnim = CABasicAnimation(keyPath: "transform.rotation.z")
+        rotateAnim.toValue = NSNumber(value: 2 * Double.pi)
+        rotateAnim.duration = duration
+        rotateAnim.repeatDuration = Double.infinity
+        rotateAnim.isRemovedOnCompletion = false
+        rotateAnim.timingFunction = CAMediaTimingFunction(name: .linear)
+        layer.add(rotateAnim, forKey: rotateKey)
+    }
+
+    func stopRotating() {
+        layer.removeAnimation(forKey: rotateKey)
+    }
+}
+

@@ -5,11 +5,12 @@
       "scale" : "1x"
     },
     {
+      "filename" : "Refresh2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "refresh-512.png",
+      "filename" : "Refresh3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
