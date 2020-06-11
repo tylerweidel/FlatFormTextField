@@ -23,7 +23,7 @@ class OSEFlatFormTextField: UIControl {
     }
 
     private var stackView = UIStackView()
-    private var textField = UITextField()
+    private var textField = NonScalingRightViewFlatFormTextField()
     private var lineView = UIView(frame: .zero)
     private var errorLabelWrapperView = UIView(frame: .zero)
     private var errorLabel = UILabel()
@@ -45,6 +45,10 @@ class OSEFlatFormTextField: UIControl {
         setupTextField()
         setupLineView()
         setupErrorLabel()
+        // Once we fully support dark and light mode, this can be removed.
+        // Right now this forces our textfield to display in dark mode
+        // so you can see the clear button on a dark background
+        overrideUserInterfaceStyle = .dark
     }
 
     private func setupStackView() {
@@ -71,6 +75,8 @@ class OSEFlatFormTextField: UIControl {
         textField.rightViewMode = .unlessEditing
         textField.clearButtonMode = .whileEditing
         textColor = UIColor(named: "neutral-40")
+        textField.tintColor = UIColor(named: "neutral-40")
+        placeholderColor = UIColor(named: "neutral-100")
     }
 
     private func setupLineView() {
@@ -120,28 +126,26 @@ class OSEFlatFormTextField: UIControl {
         }
 
         let imageView = UIImageView(image: accessoryImage)
-        // For some reason adding the subview first sets the view correctly on the right of the text field
-        // Or else it puts it on the left side
-        addSubview(imageView)
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.heightAnchor.constraint(equalToConstant: 16).isActive = true
-        imageView.widthAnchor.constraint(equalToConstant: 16).isActive = true
-        imageView.contentMode = .scaleAspectFit
         imageView.isUserInteractionEnabled = true
-        
+     
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(rightViewTapped))
         imageView.addGestureRecognizer(tapGesture)
         
         if accessoryState == .loading {
             imageView.startRotating(duration: 1)
         }
-        
+
         self.textField.rightView = imageView
     }
     
     @objc private func rightViewTapped() {
         guard let accessoryState = self.accessoryState else { return }
         delegate?.didTapTextFieldRightButton(ofKind: accessoryState)
+    }
+    
+    private func updatePlaceholderColor(withColor color: UIColor) {
+        guard let placeholder = self.placeholder else { return }
+        self.textField.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedString.Key.foregroundColor: color])
     }
 
     /**
@@ -181,7 +185,6 @@ class OSEFlatFormTextField: UIControl {
     /// The accessory state determines which image to show in the rightView of the textField
     var accessoryState: AccessoryState? {
         didSet {
-//            oldAccessoryState = accessoryState
             updateAccessoryStateView()
         }
     }
@@ -192,6 +195,15 @@ class OSEFlatFormTextField: UIControl {
         }
         set {
             textField.placeholder = newValue
+            guard let placeholderColor = self.placeholderColor else { return }
+            updatePlaceholderColor(withColor: placeholderColor)
+        }
+    }
+    
+    var placeholderColor: UIColor? {
+        didSet {
+            guard let newColor = placeholderColor else { return }
+            updatePlaceholderColor(withColor: newColor)
         }
     }
 
@@ -254,11 +266,7 @@ class OSEFlatFormTextField: UIControl {
         }
     }
 
-    var isEditing: Bool = false {
-        didSet {
-            updateAccessoryStateView()
-        }
-    }
+    var isEditing: Bool = false
 }
 
 extension OSEFlatFormTextField: UITextFieldDelegate {
@@ -314,3 +322,28 @@ extension UIView {
     }
 }
 
+/// A textField that doesn't automatically scale it's rightView, but rather respects the originally set frame
+class NonScalingRightViewFlatFormTextField: UITextField {
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+
+    // Override this method to prevent it from scaling our view
+    // If we ever implemeneted a right-to-left user interface for another langugage
+    // this would have to change.
+    override func rightViewRect(forBounds bounds: CGRect) -> CGRect {
+        // The size of our rightView for our accessoryState images
+        let rightViewSideLength: CGFloat = 16
+        // Padding puts our rightView in line with the built in clear button
+        let padding: CGFloat = 8
+        return CGRect(x: bounds.width - rightViewSideLength - padding,
+                      y: (bounds.height - rightViewSideLength) / 2,
+                      width: rightViewSideLength,
+                      height: rightViewSideLength)
+    }
+}
