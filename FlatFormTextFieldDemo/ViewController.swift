@@ -25,11 +25,21 @@ class ViewController: UIViewController {
 
         ffTextField.placeholder = "Group Name"
         ffTextField.delegate = self
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tapped))
+        view.addGestureRecognizer(tap)
+        
+        view.backgroundColor = UIColor(named: "neutral-700")
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
+    }
+    
+    @objc func tapped() {
+        print("tapped")
+        view.endEditing(true)
     }
 
     @IBAction func cycleAccessoryState(_ sender: Any) {

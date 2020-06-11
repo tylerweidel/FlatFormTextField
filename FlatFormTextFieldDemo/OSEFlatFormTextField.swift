@@ -68,6 +68,9 @@ class OSEFlatFormTextField: UIControl {
         textField.rightViewMode = .always
         textField.delegate = self
         font = UIFont(name: "Maax", size: 16)!
+        textField.rightViewMode = .unlessEditing
+        textField.clearButtonMode = .whileEditing
+        textColor = UIColor(named: "neutral-40")
     }
 
     private func setupLineView() {
@@ -112,13 +115,7 @@ class OSEFlatFormTextField: UIControl {
 
     private func setRightView(withImage image: UIImage?) {
         guard let accessoryImage = image else {
-            UIView.transition(
-                with: textField,
-                duration: 0.1,
-                options: .transitionCrossDissolve,
-                animations: { self.textField.rightView = nil },
-                completion: nil
-            )
+            self.textField.rightView = nil
             return
         }
 
@@ -139,13 +136,7 @@ class OSEFlatFormTextField: UIControl {
             imageView.startRotating(duration: 1)
         }
         
-        UIView.transition(
-            with: textField,
-            duration: 0.1,
-            options: .transitionCrossDissolve,
-            animations: { self.textField.rightView = imageView },
-            completion: nil
-        )
+        self.textField.rightView = imageView
     }
     
     @objc private func rightViewTapped() {
@@ -190,6 +181,7 @@ class OSEFlatFormTextField: UIControl {
     /// The accessory state determines which image to show in the rightView of the textField
     var accessoryState: AccessoryState? {
         didSet {
+//            oldAccessoryState = accessoryState
             updateAccessoryStateView()
         }
     }
@@ -262,7 +254,11 @@ class OSEFlatFormTextField: UIControl {
         }
     }
 
-    var isEditing: Bool = false
+    var isEditing: Bool = false {
+        didSet {
+            updateAccessoryStateView()
+        }
+    }
 }
 
 extension OSEFlatFormTextField: UITextFieldDelegate {
