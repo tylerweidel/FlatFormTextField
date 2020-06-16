@@ -8,7 +8,7 @@
 import UIKit
 
 protocol OSEFlatFormTextFieldRightButtonDelegate {
-    func didTapTextFieldRightButton(ofKind kind: OSEFlatFormTextField.AccessoryState)
+    func didTapTextFieldRightButton(ofKind kind: OSEFlatFormTextField.State)
 }
 
 class OSEFlatFormTextField: UIControl {
@@ -18,15 +18,11 @@ class OSEFlatFormTextField: UIControl {
         static let editImageSize: CGFloat = 20
     }
     
-    enum State {
-        case waiting
+    enum State: Equatable {
+        case readOnly
         case editing
-    }
-    
-    enum AccessoryState {
         case loading
-        case refresh
-        case checkmark
+        case error(error: String)
     }
 
     private var stackView = UIStackView()
@@ -145,7 +141,7 @@ class OSEFlatFormTextField: UIControl {
     
     private func updateDisplayState() {
         switch displayState {
-        case .waiting:
+        case .readOnly:
             error = nil
             stackView.isHidden = true
             waitingView.isHidden = false
@@ -155,23 +151,26 @@ class OSEFlatFormTextField: UIControl {
             stackView.isHidden = false
             waitingView.isHidden = true
             waitingLabel.text = nil
+            error = nil
             textField.becomeFirstResponder()
+            setRightView(withImage: nil)
+        case .loading:
+            stackView.isHidden = false
+            waitingView.isHidden = true
+            error = nil
+            waitingLabel.text = nil
+            textField.resignFirstResponder()
+            setRightView(withImage: UIImage(named: "Loading"))
+        case let .error(error: errorText):
+            stackView.isHidden = false
+            waitingView.isHidden = true
+            error = errorText
+            waitingLabel.text = nil
+            textField.resignFirstResponder()
+            setRightView(withImage: UIImage(named: "refresh"))
         }
     }
 
-    private func updateAccessoryStateView() {
-        switch accessoryState {
-        case .loading:
-            setRightView(withImage: UIImage(named: "Loading"))
-        case .refresh:
-            setRightView(withImage: UIImage(named: "refresh"))
-        case .checkmark:
-            setRightView(withImage: UIImage(named: "checkmark"))
-        case .none:
-            setRightView(withImage: nil)
-        }
-    }
-    
     private func waitingLabelAttributedString(fromText text: String) -> NSAttributedString {
         let fullString = NSMutableAttributedString(string: text)
         let spacer = NSAttributedString(string: "  ")
@@ -200,7 +199,7 @@ class OSEFlatFormTextField: UIControl {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(rightViewTapped))
         imageView.addGestureRecognizer(tapGesture)
         
-        if accessoryState == .loading {
+        if displayState == .loading {
             imageView.startRotating(duration: 1)
         }
 
@@ -213,8 +212,8 @@ class OSEFlatFormTextField: UIControl {
     }
     
     @objc private func rightViewTapped() {
-        guard let accessoryState = self.accessoryState else { return }
-        delegate?.didTapTextFieldRightButton(ofKind: accessoryState)
+//        guard let displayState = self.displayState else { return }
+        delegate?.didTapTextFieldRightButton(ofKind: displayState)
     }
     
     @objc private func waitingViewTapped() {
@@ -232,7 +231,7 @@ class OSEFlatFormTextField: UIControl {
      }
      ````
      */
-    var error: String? {
+    private var error: String? {
         get {
             return errorLabel.text
         }
@@ -255,16 +254,9 @@ class OSEFlatFormTextField: UIControl {
         }
     }
     
-    var displayState: State = .waiting {
+    var displayState: State = .readOnly {
         didSet {
             updateDisplayState()
-        }
-    }
-
-    /// The accessory state determines which image to show in the rightView of the textField
-    var accessoryState: AccessoryState? {
-        didSet {
-            updateAccessoryStateView()
         }
     }
 

@@ -11,7 +11,7 @@ import UIKit
 class ViewController: UIViewController {
 
     let ffTextField = OSEFlatFormTextField()
-    var accessoryCycleCount = 1
+    var stateCycleCount = 1
     var errorLabelCount = 1
         
     override func viewDidLoad() {
@@ -43,63 +43,29 @@ class ViewController: UIViewController {
         print("tapped")
         view.endEditing(true)
     }
-    @IBAction func cycleDisplayState(_ sender: Any) {
-        if ffTextField.displayState == .waiting {
-            ffTextField.displayState = .editing
-        } else {
-            ffTextField.displayState = .waiting
-        }
-    }
     
-    @IBAction func cycleAccessoryState(_ sender: Any) {
-        switch accessoryCycleCount {
+    @IBAction func cycleDisplayState(_ sender: Any) {
+        stateCycleCount += 1
+        switch stateCycleCount {
         case 1:
-            ffTextField.accessoryState = .checkmark
-            accessoryCycleCount += 1
+            ffTextField.displayState = .readOnly
         case 2:
-            ffTextField.accessoryState = .loading
-            accessoryCycleCount += 1
+            ffTextField.displayState = .editing
         case 3:
-            ffTextField.accessoryState = .refresh
-            accessoryCycleCount += 1
+            ffTextField.displayState = .loading
         case 4:
-            ffTextField.accessoryState = nil
-            accessoryCycleCount = 1
+            stateCycleCount = 0
+            UIView.animate(withDuration: 0.25) {
+                self.ffTextField.displayState = .error(error: "This is an error message because someone made a mistake. But it totally wasn't me, it was the other person who was at fault.")
+            }
         default:
             break
-        }
-    }
-    
-    @IBAction func cycleErrorLabel(_ sender: Any) {
-        UIView.animate(withDuration: 0.25) {
-            switch self.errorLabelCount {
-            case 1:
-                let string = "This is an error message because someone made a mistake. But it totally wasn't me, it was the other person who was at fault."
-                self.ffTextField.error = string
-                self.errorLabelCount += 1
-            case 2:
-                self.ffTextField.error = nil
-                self.errorLabelCount += 1
-            case 3:
-                let string = "This is an error message because someone made a mistake. But it totally wasn't me."
-                self.ffTextField.error = string
-                self.errorLabelCount += 1
-            case 4:
-                self.ffTextField.error = nil
-                self.errorLabelCount += 1
-            case 5:
-                let string = "The error message would go here."
-                self.ffTextField.error = string
-                self.errorLabelCount = 1
-            default:
-                break
-            }
         }
     }
 }
 
 extension ViewController: UITextFieldDelegate, OSEFlatFormTextFieldRightButtonDelegate {
-    func didTapTextFieldRightButton(ofKind kind: OSEFlatFormTextField.AccessoryState) {
+    func didTapTextFieldRightButton(ofKind kind: OSEFlatFormTextField.State) {
         print("did tap \(kind)")
     }
 }
