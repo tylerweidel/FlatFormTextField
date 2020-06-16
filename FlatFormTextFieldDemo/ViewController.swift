@@ -30,6 +30,8 @@ class ViewController: UIViewController {
         view.addGestureRecognizer(tap)
         
         view.backgroundColor = UIColor(named: "neutral-700")
+        
+        ffTextField.text = "William"
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -41,7 +43,14 @@ class ViewController: UIViewController {
         print("tapped")
         view.endEditing(true)
     }
-
+    @IBAction func cycleDisplayState(_ sender: Any) {
+        if ffTextField.displayState == .waiting {
+            ffTextField.displayState = .editing
+        } else {
+            ffTextField.displayState = .waiting
+        }
+    }
+    
     @IBAction func cycleAccessoryState(_ sender: Any) {
         switch accessoryCycleCount {
         case 1:
@@ -64,34 +73,29 @@ class ViewController: UIViewController {
     @IBAction func cycleErrorLabel(_ sender: Any) {
         UIView.animate(withDuration: 0.25) {
             switch self.errorLabelCount {
-        case 1:
-            
-            let string = "This is an error message because someone made a mistake. But it totally wasn't me, it was the other person who was at fault."
-            
-            self.ffTextField.error = string
-            self.errorLabelCount += 1
-        case 2:
-            self.ffTextField.error = nil
-            self.errorLabelCount += 1
-        case 3:
-            let string = "This is an error message because someone made a mistake. But it totally wasn't me."
-            self.ffTextField.error = string
-            self.errorLabelCount += 1
-        case 4:
-            self.ffTextField.error = nil
-            self.errorLabelCount += 1
-        case 5:
-            let string = "The error message would go here."
-            self.ffTextField.error = string
-            self.errorLabelCount = 1
-        default:
-            break
+            case 1:
+                let string = "This is an error message because someone made a mistake. But it totally wasn't me, it was the other person who was at fault."
+                self.ffTextField.error = string
+                self.errorLabelCount += 1
+            case 2:
+                self.ffTextField.error = nil
+                self.errorLabelCount += 1
+            case 3:
+                let string = "This is an error message because someone made a mistake. But it totally wasn't me."
+                self.ffTextField.error = string
+                self.errorLabelCount += 1
+            case 4:
+                self.ffTextField.error = nil
+                self.errorLabelCount += 1
+            case 5:
+                let string = "The error message would go here."
+                self.ffTextField.error = string
+                self.errorLabelCount = 1
+            default:
+                break
+            }
         }
-        
-        
     }
-    }
-
 }
 
 extension ViewController: UITextFieldDelegate, OSEFlatFormTextFieldRightButtonDelegate {
@@ -99,4 +103,3 @@ extension ViewController: UITextFieldDelegate, OSEFlatFormTextFieldRightButtonDe
         print("did tap \(kind)")
     }
 }
-

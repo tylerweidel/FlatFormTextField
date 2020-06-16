@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -16,14 +16,21 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eaE-oz-Lbu">
-                                <rect key="frame" x="130" y="79" width="154" height="30"/>
+                                <rect key="frame" x="130" y="90" width="154" height="30"/>
                                 <state key="normal" title="Cycle Accessory State"/>
                                 <connections>
                                     <action selector="cycleAccessoryState:" destination="BYZ-38-t0r" eventType="touchUpInside" id="pfA-eE-4ur"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nnG-hY-fX3">
+                                <rect key="frame" x="140.5" y="52" width="133" height="30"/>
+                                <state key="normal" title="Cycle Display State"/>
+                                <connections>
+                                    <action selector="cycleDisplayState:" destination="BYZ-38-t0r" eventType="touchUpInside" id="NmY-7o-FLF"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Uh-R2-eVU">
-                                <rect key="frame" x="148" y="154" width="118" height="30"/>
+                                <rect key="frame" x="148" y="128" width="118" height="30"/>
                                 <state key="normal" title="Cycle Error Label"/>
                                 <connections>
                                     <action selector="cycleErrorLabel:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Ffq-GA-vMd"/>
@@ -32,10 +39,12 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="eaE-oz-Lbu" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="35" id="Ofa-Ex-3AG"/>
+                            <constraint firstItem="nnG-hY-fX3" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="31a-JG-clx"/>
+                            <constraint firstItem="nnG-hY-fX3" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="8" id="9UJ-Aw-qO9"/>
                             <constraint firstItem="3Uh-R2-eVU" firstAttribute="centerX" secondItem="eaE-oz-Lbu" secondAttribute="centerX" id="brw-LU-Ahy"/>
-                            <constraint firstItem="3Uh-R2-eVU" firstAttribute="top" secondItem="eaE-oz-Lbu" secondAttribute="bottom" constant="45" id="eWy-gS-jUC"/>
                             <constraint firstItem="eaE-oz-Lbu" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="gaI-Yh-t3J"/>
+                            <constraint firstItem="3Uh-R2-eVU" firstAttribute="top" secondItem="eaE-oz-Lbu" secondAttribute="bottom" constant="8" id="i2g-MI-5UH"/>
+                            <constraint firstItem="eaE-oz-Lbu" firstAttribute="top" secondItem="nnG-hY-fX3" secondAttribute="bottom" constant="8" id="kWd-eM-wPA"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>

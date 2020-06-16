@@ -13,9 +13,16 @@ protocol OSEFlatFormTextFieldRightButtonDelegate {
 
 class OSEFlatFormTextField: UIControl {
     
-    enum Constants {
+    enum Constant {
         static let rightViewSize: CGFloat = 16
+        static let editImageSize: CGFloat = 20
     }
+    
+    enum State {
+        case waiting
+        case editing
+    }
+    
     enum AccessoryState {
         case loading
         case refresh
@@ -27,6 +34,8 @@ class OSEFlatFormTextField: UIControl {
     private var lineView = UIView(frame: .zero)
     private var errorLabelWrapperView = UIView(frame: .zero)
     private var errorLabel = UILabel()
+    private var waitingView = UIView(frame: .zero)
+    private var waitingLabel = UILabel()
 
     weak var delegate: (UITextFieldDelegate & OSEFlatFormTextFieldRightButtonDelegate)?
 
@@ -45,10 +54,13 @@ class OSEFlatFormTextField: UIControl {
         setupTextField()
         setupLineView()
         setupErrorLabel()
+        setupWaitingView()
         // Once we fully support dark and light mode, this can be removed.
         // Right now this forces our textfield to display in dark mode
         // so you can see the clear button on a dark background
         overrideUserInterfaceStyle = .dark
+        stackView.isHidden = true
+        waitingView.isHidden = false
     }
 
     private func setupStackView() {
@@ -71,6 +83,7 @@ class OSEFlatFormTextField: UIControl {
         textField.heightAnchor.constraint(equalToConstant: 30).isActive = true
         textField.rightViewMode = .always
         textField.delegate = self
+        textField.returnKeyType = .done
         font = UIFont(name: "Maax", size: 16)!
         textField.rightViewMode = .unlessEditing
         textField.clearButtonMode = .whileEditing
@@ -105,6 +118,46 @@ class OSEFlatFormTextField: UIControl {
         
         errorLabelWrapperView.isHidden = true
     }
+    
+    private func setupWaitingView() {
+        addSubview(waitingView)
+        waitingView.translatesAutoresizingMaskIntoConstraints = false
+        waitingView.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        waitingView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        waitingView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+        waitingView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+        
+        waitingView.addSubview(waitingLabel)
+        waitingLabel.translatesAutoresizingMaskIntoConstraints = false
+        waitingLabel.topAnchor.constraint(equalTo: waitingView.topAnchor).isActive = true
+        waitingLabel.bottomAnchor.constraint(equalTo: waitingView.bottomAnchor).isActive = true
+        waitingLabel.leadingAnchor.constraint(equalTo: waitingView.leadingAnchor).isActive = true
+        waitingLabel.trailingAnchor.constraint(equalTo: waitingView.trailingAnchor).isActive = true
+        waitingLabel.numberOfLines = 0
+        waitingLabel.lineBreakMode = .byWordWrapping
+        waitingLabel.textColor = textColor
+        waitingLabel.textAlignment = .center
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(waitingViewTapped))
+        waitingView.addGestureRecognizer(tapGesture)
+        
+    }
+    
+    private func updateDisplayState() {
+        switch displayState {
+        case .waiting:
+            error = nil
+            stackView.isHidden = true
+            waitingView.isHidden = false
+            waitingLabel.attributedText = waitingLabelAttributedString(fromText: text ?? "")
+            textField.resignFirstResponder()
+        case .editing:
+            stackView.isHidden = false
+            waitingView.isHidden = true
+            waitingLabel.text = nil
+            textField.becomeFirstResponder()
+        }
+    }
 
     private func updateAccessoryStateView() {
         switch accessoryState {
@@ -117,6 +170,22 @@ class OSEFlatFormTextField: UIControl {
         case .none:
             setRightView(withImage: nil)
         }
+    }
+    
+    private func waitingLabelAttributedString(fromText text: String) -> NSAttributedString {
+        let fullString = NSMutableAttributedString(string: text)
+        let spacer = NSAttributedString(string: "  ")
+
+        let editImageAttachment = NSTextAttachment()
+        editImageAttachment.bounds.size = CGSize(width: 20, height: 20)
+        editImageAttachment.image = UIImage(named: "edit-image")
+
+        let image1String = NSAttributedString(attachment: editImageAttachment)
+
+        fullString.append(spacer)
+        fullString.append(image1String)
+
+        return fullString
     }
 
     private func setRightView(withImage image: UIImage?) {
@@ -138,14 +207,18 @@ class OSEFlatFormTextField: UIControl {
         self.textField.rightView = imageView
     }
     
+    private func updatePlaceholderColor(withColor color: UIColor) {
+        guard let placeholder = self.placeholder else { return }
+        self.textField.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedString.Key.foregroundColor: color])
+    }
+    
     @objc private func rightViewTapped() {
         guard let accessoryState = self.accessoryState else { return }
         delegate?.didTapTextFieldRightButton(ofKind: accessoryState)
     }
     
-    private func updatePlaceholderColor(withColor color: UIColor) {
-        guard let placeholder = self.placeholder else { return }
-        self.textField.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedString.Key.foregroundColor: color])
+    @objc private func waitingViewTapped() {
+        displayState = .editing
     }
 
     /**
@@ -181,6 +254,12 @@ class OSEFlatFormTextField: UIControl {
             }
         }
     }
+    
+    var displayState: State = .waiting {
+        didSet {
+            updateDisplayState()
+        }
+    }
 
     /// The accessory state determines which image to show in the rightView of the textField
     var accessoryState: AccessoryState? {
@@ -214,6 +293,7 @@ class OSEFlatFormTextField: UIControl {
 
         set {
             textField.text = newValue
+            waitingLabel.attributedText = waitingLabelAttributedString(fromText: text ?? "")
         }
     }
 
