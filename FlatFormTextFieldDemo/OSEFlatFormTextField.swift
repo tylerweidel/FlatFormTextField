@@ -15,12 +15,12 @@ class OSEFlatFormTextField: UIControl {
     
     enum Constant {
         static let rightViewSize: CGFloat = 16
-        static let editImageSize: CGFloat = 20
+        static let editImageSize = CGSize(width: 20, height: 20)
     }
     
-    enum State {
-        case waiting
-        case editing
+    enum DisplayState {
+        case inactive
+        case editable
     }
     
     enum AccessoryState {
@@ -29,13 +29,13 @@ class OSEFlatFormTextField: UIControl {
         case checkmark
     }
 
-    private var stackView = UIStackView()
-    private var textField = NonScalingRightViewFlatFormTextField()
-    private var lineView = UIView(frame: .zero)
-    private var errorLabelWrapperView = UIView(frame: .zero)
-    private var errorLabel = UILabel()
-    private var waitingView = UIView(frame: .zero)
-    private var waitingLabel = UILabel()
+    private let stackView = UIStackView()
+    private let textField = NonScalingRightViewFlatFormTextField()
+    private let lineView = UIView(frame: .zero)
+    private let errorLabelWrapperView = UIView(frame: .zero)
+    private let errorLabel = UILabel()
+    private let waitingView = UIView(frame: .zero)
+    private let waitingLabel = UILabel()
 
     weak var delegate: (UITextFieldDelegate & OSEFlatFormTextFieldRightButtonDelegate)?
 
@@ -59,8 +59,7 @@ class OSEFlatFormTextField: UIControl {
         // Right now this forces our textfield to display in dark mode
         // so you can see the clear button on a dark background
         overrideUserInterfaceStyle = .dark
-        stackView.isHidden = true
-        waitingView.isHidden = false
+        updateDisplayState()
     }
 
     private func setupStackView() {
@@ -144,19 +143,21 @@ class OSEFlatFormTextField: UIControl {
     }
     
     private func updateDisplayState() {
-        switch displayState {
-        case .waiting:
-            error = nil
-            stackView.isHidden = true
-            waitingView.isHidden = false
-            waitingLabel.attributedText = waitingLabelAttributedString(fromText: text ?? "")
-            textField.resignFirstResponder()
-        case .editing:
-            stackView.isHidden = false
-            waitingView.isHidden = true
-            waitingLabel.text = nil
-            textField.becomeFirstResponder()
-        }
+        UIView.transition(with: self, duration: 0.5, options: [.transitionFlipFromTop], animations: {
+            switch self.displayState {
+            case .inactive:
+                self.error = nil
+                self.stackView.isHidden = true
+                self.waitingView.isHidden = false
+                self.waitingLabel.attributedText = self.waitingLabelAttributedString(fromText: self.text ?? "")
+                self.textField.resignFirstResponder()
+            case .editable:
+                self.stackView.isHidden = false
+                self.waitingView.isHidden = true
+                self.waitingLabel.text = nil
+                self.textField.becomeFirstResponder()
+            }
+        }, completion: nil)
     }
 
     private func updateAccessoryStateView() {
@@ -177,7 +178,7 @@ class OSEFlatFormTextField: UIControl {
         let spacer = NSAttributedString(string: "  ")
 
         let editImageAttachment = NSTextAttachment()
-        editImageAttachment.bounds.size = CGSize(width: 20, height: 20)
+        editImageAttachment.bounds.size = Constant.editImageSize
         editImageAttachment.image = UIImage(named: "edit-image")
 
         let image1String = NSAttributedString(attachment: editImageAttachment)
@@ -218,7 +219,7 @@ class OSEFlatFormTextField: UIControl {
     }
     
     @objc private func waitingViewTapped() {
-        displayState = .editing
+        displayState = .editable
     }
 
     /**
@@ -255,7 +256,7 @@ class OSEFlatFormTextField: UIControl {
         }
     }
     
-    var displayState: State = .waiting {
+    var displayState: DisplayState = .inactive {
         didSet {
             updateDisplayState()
         }

@@ -44,10 +44,10 @@ class ViewController: UIViewController {
         view.endEditing(true)
     }
     @IBAction func cycleDisplayState(_ sender: Any) {
-        if ffTextField.displayState == .waiting {
-            ffTextField.displayState = .editing
+        if ffTextField.displayState == .inactive {
+            ffTextField.displayState = .editable
         } else {
-            ffTextField.displayState = .waiting
+            ffTextField.displayState = .inactive
         }
     }
     
